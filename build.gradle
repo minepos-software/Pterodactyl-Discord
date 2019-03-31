@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     compile 'org.reflections:reflections:+'
+    compile 'com.google.code.gson:gson:+'
     compile 'net.dv8tion:JDA:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
