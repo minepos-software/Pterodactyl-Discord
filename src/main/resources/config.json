@@ -1,4 +1,10 @@
 {
   "token": "<TOKEN>",
-  "prefix": "!"
+  "prefix": "!",
+
+  "pterodactyl": {
+    "url": "<URL>",
+    "admin-token": "<TOKEN>",
+    "user-token": "<TOKEN>"
+  }
 }

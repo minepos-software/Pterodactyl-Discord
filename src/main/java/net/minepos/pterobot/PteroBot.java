@@ -17,7 +17,7 @@ public final class PteroBot {
     @Inject private Values values;
 
     void start() {
-        Stream.of(FILES, JDA, CONSOLE).map(Registerables::getClazz).map(injector::getInstance).forEach(r -> {
+        Stream.of(FILES, JDA, COMMANDS, PTERO_API, CONSOLE).map(Registerables::getClazz).map(injector::getInstance).forEach(r -> {
             r.run();
             values.putAll(r.getValues());
         });

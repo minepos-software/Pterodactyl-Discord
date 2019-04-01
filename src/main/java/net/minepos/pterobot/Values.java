@@ -1,6 +1,8 @@
 package net.minepos.pterobot;
 
 import com.google.inject.Singleton;
+import com.stanjg.ptero4j.PteroAdminAPI;
+import com.stanjg.ptero4j.PteroUserAPI;
 import net.dv8tion.jda.api.JDA;
 
 import java.util.Map;
@@ -20,5 +22,13 @@ public final class Values {
 
     public JDA getJDA() {
         return (JDA) values.get("JDA");
+    }
+
+    public PteroAdminAPI getAdminAPI() {
+        return (PteroAdminAPI) values.get("admin-api");
+    }
+
+    public PteroUserAPI getUserAPI() {
+        return (PteroUserAPI) values.get("user-api");
     }
 }

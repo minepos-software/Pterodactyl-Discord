@@ -1,9 +1,7 @@
 package net.minepos.pterobot.registerables;
 
 import lombok.Getter;
-import net.minepos.pterobot.registerables.implementations.ConsoleRegisterable;
-import net.minepos.pterobot.registerables.implementations.FilesRegisterable;
-import net.minepos.pterobot.registerables.implementations.JDARegisterable;
+import net.minepos.pterobot.registerables.implementations.*;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2019
@@ -12,6 +10,8 @@ import net.minepos.pterobot.registerables.implementations.JDARegisterable;
 public enum Registerables {
     FILES(FilesRegisterable.class),
     JDA(JDARegisterable.class),
+    COMMANDS(CommandsRegisterable.class),
+    PTERO_API(PteroAPIRegisterable.class),
     CONSOLE(ConsoleRegisterable.class);
 
     @Getter private final Class<? extends Registerable> clazz;

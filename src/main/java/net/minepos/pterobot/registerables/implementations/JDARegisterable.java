@@ -17,8 +17,6 @@ public final class JDARegisterable extends Registerable {
 
     @Override
     protected void execute() {
-        commandHandler.setup();
-
         try {
             addValue("JDA", new JDABuilder(gFile.getFileConfiguration("config").getString("token"))
                     .setActivity(Activity.playing("test"))
