@@ -6,22 +6,21 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.minepos.pterobot.file.GFile;
 import net.minepos.pterobot.objects.Command;
-
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 
+@Singleton
 public class CommandHandler extends ListenerAdapter {
-    private static CommandHandler ourInstance = new CommandHandler();
-    public static CommandHandler getInstance() {
-        return ourInstance;
-    }
+
 
     @Inject private GFile gFile;
     public ArrayList<Command> commands;
 
-    private CommandHandler() {
+    public void setup(){
         commands = new ArrayList<Command>();
         commands.add(new LinkCommand());
     }
+
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {

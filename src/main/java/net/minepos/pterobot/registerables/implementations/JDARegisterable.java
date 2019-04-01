@@ -13,15 +13,16 @@ import net.minepos.pterobot.registerables.Registerable;
 // ------------------------------
 public final class JDARegisterable extends Registerable {
     @Inject private GFile gFile;
+    @Inject private CommandHandler commandHandler;
 
     @Override
     protected void execute() {
-
+        commandHandler.setup();
 
         try {
             addValue("JDA", new JDABuilder(gFile.getFileConfiguration("config").getString("token"))
                     .setActivity(Activity.playing("test"))
-                    .addEventListeners(CommandHandler.getInstance())
+                    .addEventListeners(commandHandler)
                     .build());
         } catch (Exception e) {
             e.printStackTrace();
