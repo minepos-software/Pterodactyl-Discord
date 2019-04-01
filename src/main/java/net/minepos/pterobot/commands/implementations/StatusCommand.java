@@ -16,7 +16,7 @@ public final class StatusCommand extends Command {
     @Inject private Values values;
 
     public StatusCommand() {
-        super("status", "Get the status of a server by name", 322698583377707008L);
+        super("status", "Get the status of a server by name", 322698583377707008L, 322698695458160640L);
     }
 
     @Override
