@@ -23,6 +23,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok")
     compile 'org.reflections:reflections:+'
     compile 'com.google.code.gson:gson:+'
     compile 'net.dv8tion:JDA:+'
