@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.stanjg.ptero4j.entities.objects.server.PowerState;
 import com.stanjg.ptero4j.entities.panel.admin.Server;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -11,6 +12,7 @@ import net.minepos.pterobot.Values;
 import net.minepos.pterobot.commands.framework.Command;
 
 import java.awt.*;
+import java.net.Socket;
 import java.util.List;
 
 // ------------------------------
@@ -32,33 +34,55 @@ public final class StatusCommand extends Command {
             if (servers.size() >= 1) {
                 Server server = servers.get(0);
                 PowerState state = values.getUserAPI().getServersController().getPowerState(server.getLongId());
-                MessageEmbed embed = null;
+                EmbedBuilder embed = null;
                 if(state.equals(PowerState.ON)||state.equals(PowerState.STARTING)){
-                    embed = getEmbed("Status for "+server.getName(), "The server is: "+state.getValue(),e.getAuthor(),Color.GREEN);
+                    embed = getEmbedBuilder("Status for "+server.getName(), "The server is: "+state.getValue(),e.getAuthor(),true);
+                    if(state.equals(PowerState.ON)){
+                        embed.appendDescription(System.lineSeparator()+server.getAllocationId());
+                    }
                 }else{
-                    embed = getEmbed("Status for "+server.getName(), "The server is: "+state.getValue(),e.getAuthor(),Color.RED);
+                    embed = getEmbedBuilder("Status for "+server.getName(), "The server is: "+state.getValue(),e.getAuthor(),false);
                 }
 
                 if(embed != null){
-                    e.getChannel().sendMessage(embed).queue();
+                    e.getChannel().sendMessage(embed.build()).queue();
                 }
 
             } else {
-                MessageEmbed embed = getEmbed("Not Found.", "That server couldn't be found on the panel.",e.getAuthor(),Color.RED);
+                MessageEmbed embed = getEmbed("Not Found.", "That server couldn't be found on the panel.",e.getAuthor(),false);
                 e.getChannel().sendMessage(embed).queue();
             }
         } else {
-            MessageEmbed embed = getEmbed("Not Found.", "You didn't supply a server name.",e.getAuthor(),Color.RED);
+            MessageEmbed embed = getEmbed("Not Found.", "You didn't supply a server name.",e.getAuthor(),false);
             e.getChannel().sendMessage(embed).queue();
         }
     }
-
-    public MessageEmbed getEmbed(String title, String message, User author, Color color){
+    public EmbedBuilder getEmbedBuilder(String title, String message, User author, boolean isGood){
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle(title);
         builder.setDescription(message);
-        builder.setColor(color);
+        if(!isGood){
+            builder.setColor(Color.RED);
+
+        }else{
+            builder.setColor(Color.GREEN);
+        }
         builder.setFooter("Requested by "+author.getName(),null);
-        return builder.build();
+        return builder;
+    }
+    public MessageEmbed getEmbed(String title, String message, User author, boolean isGood){
+        return getEmbedBuilder(title, message, author, isGood).build();
+    }
+    private boolean isRemotePortInUse(String hostName, int portNumber) {
+        try {
+            // Socket try to open a REMOTE port
+            new Socket(hostName, portNumber).close();
+            // remote port can be opened, this is a listening port on remote machine
+            // this port is in use on the remote machine !
+            return true;
+        } catch(Exception e) {
+            // remote port is closed, nothing is running on
+            return false;
+        }
     }
 }
